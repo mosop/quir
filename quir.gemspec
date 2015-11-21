@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["mosop"]
   spec.email         = ["mosop@a.b.com"]
 
-  spec.summary       = %q{A library utilized for Ruby autoload.}
+  spec.summary       = %q{A library utilized for autoloading.}
   spec.homepage      = "https://github.com/mosop/quir"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
