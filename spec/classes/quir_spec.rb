@@ -5,7 +5,9 @@ describe Quir do
     expect(Quir::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  context '.later' do
+    it 'raises "No block given"' do
+      expect{ Quir.later }.to raise_error('No block given.')
+    end
   end
 end
