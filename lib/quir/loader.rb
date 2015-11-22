@@ -24,6 +24,7 @@ module Quir
     def append_directory(d)
       return if ::File.exist?("#{dir}/#{d}.rb")
       name = d.split(/\//)[-1].pascalize
+      return if self.module.const_defined?(name, false)
       m = ::Module.new
       self.module.const_set name, m
       m.name # fix module's name
