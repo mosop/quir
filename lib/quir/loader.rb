@@ -2,26 +2,30 @@ using Quir::Inflection
 
 module Quir
   class Loader
-    attr_reader :binding
-
     def initialize(mod, dir)
       @module = mod
       @dir = dir
     end
 
+    def self.from_binding(binding)
+      mod = binding.eval('self')
+      dir = binding.eval('__FILE__').sub(/\.rb$/, '')
+      Loader.new(mod, dir)
+    end
+
     attr_reader :module, :dir
 
-    def run
+    def autoload!
       ::Dir.glob("#{dir}/*") do |f|
         if ::File.directory?(f)
-          append_directory f
+          autoload_directory f
         elsif /\.rb$/ =~ f
-          append_ruby_file f
+          autoload_ruby_file f
         end
       end
     end
 
-    def append_directory(d)
+    def autoload_directory(d)
       return if ::File.exist?("#{dir}/#{d}.rb")
       name = d.split(/\//)[-1].pascalize
       return if self.module.const_defined?(name, false)
@@ -29,10 +33,10 @@ module Quir
       self.module.const_set name, m
       m.name # fix module's name
       loader = ::Quir::Loader.new(m, d)
-      loader.run
+      loader.autoload!
     end
 
-    def append_ruby_file(f)
+    def autoload_ruby_file(f)
       name = f.split(/\//)[-1].sub(/\.rb$/, '').pascalize
       self.module.autoload name, f unless self.module.autoload?(name)
     end
