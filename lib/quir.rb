@@ -1,8 +1,9 @@
 require "quir/version"
 
 module Quir
-  autoload :Loader, 'quir/loader'
   autoload :Inflection, 'quir/inflection'
+  autoload :Loader, 'quir/loader'
+  autoload :Testspaces, 'quir/testspaces'
 
   def self.autoload!(&block)
     raise "No block given." unless block

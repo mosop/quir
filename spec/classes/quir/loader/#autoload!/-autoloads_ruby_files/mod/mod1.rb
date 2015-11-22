@@ -1,9 +1,11 @@
-class Quir::Loader
-  module Testspace
-    module I_Run
-      module AutoloadsRubyFiles
-        module Mod
-          module Mod1
+module Quir::Testspaces
+  module Quir
+    module Loader
+      module I_Run
+        module AutoloadsRubyFiles
+          module Mod
+            module Mod1
+            end
           end
         end
       end

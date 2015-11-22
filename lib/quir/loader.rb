@@ -16,7 +16,8 @@ module Quir
     attr_reader :module, :dir
 
     def autoload!
-      ::Dir.glob("#{dir}/*") do |f|
+      ::Dir.glob("#{dir}/*", ::File::FNM_DOTMATCH) do |f|
+        next if /\/\.{1,2}$/ =~ f
         if ::File.directory?(f)
           autoload_directory f
         elsif /\.rb$/ =~ f
@@ -37,7 +38,11 @@ module Quir
     end
 
     def autoload_ruby_file(f)
-      name = f.split(/\//)[-1].sub(/\.rb$/, '').pascalize
+      name = f.split(/\//)[-1].sub(/\.rb$/, '')
+      /^([#.])?(.+?)([?!])?$/ =~ name
+      s1 = {'#' => 'I', '.' => 'C'}[$1]
+      s2 = {'?' => 'P', '!' => 'D'}[$3]
+      name = (s1 || s2 ? "#{s1}#{s2}_" : '') + $2.pascalize
       self.module.autoload name, f unless self.module.autoload?(name)
     end
   end
