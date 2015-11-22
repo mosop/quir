@@ -26,7 +26,7 @@ module Quir
     end
 
     def autoload_directory(d)
-      return if ::File.exist?("#{dir}/#{d}.rb")
+      return if ::File.exist?("#{d}.rb")
       name = d.split(/\//)[-1].pascalize
       return if self.module.const_defined?(name, false)
       m = ::Module.new
