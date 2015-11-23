@@ -31,7 +31,7 @@ module Quir
       name = d.split(/\//)[-1].pascalize
       return if self.module.const_defined?(name, false)
       m = define_module(name, d)
-      loader = self.class.new(m, dir)
+      loader = self.class.new(m, d)
       loader.autoload!
     end
 
