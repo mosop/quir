@@ -10,7 +10,7 @@ module Quir
     def self.from_binding(binding)
       mod = binding.eval('self')
       dir = binding.eval('__FILE__').sub(/\.rb$/, '')
-      Loader.new(mod, dir)
+      self.new(mod, dir)
     end
 
     attr_reader :module, :dir
@@ -30,10 +30,14 @@ module Quir
       return if ::File.exist?("#{d}.rb")
       name = d.split(/\//)[-1].pascalize
       return if self.module.const_defined?(name, false)
+      define_module name, d
+    end
+
+    def define_module(name, dir)
       m = ::Module.new
       self.module.const_set name, m
       m.name # fix module's name
-      loader = ::Quir::Loader.new(m, d)
+      loader = self.class.new(m, dir)
       loader.autoload!
     end
 

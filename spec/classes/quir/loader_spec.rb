@@ -57,5 +57,13 @@ RSpec.describe Quir::Loader do
       expect(Quir::Loader).to receive(:new).with(self.class, __FILE__.sub(/\.rb$/, ''))
       Quir::Loader.from_binding bind
     end
+
+    it 'creates instance of self class' do
+      dir = "#{__dir__}/loader/.from_binding/-creates_instance_of_self_class"
+      require "#{dir}/loader"
+      klass = Quir::Testspaces::Quir::Loader::CI_FromBinding::CreatesInstanceOfSelfClass::Loader
+      l = klass.from_binding(bind)
+      expect(l.class).to be(klass)
+    end
   end
 end

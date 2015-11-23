@@ -7,6 +7,6 @@ module Quir
 
   def self.autoload!(&block)
     raise "No block given." unless block
-    Loader.from_binding(block.binding).autoload!
+    Loader.from_binding(block.binding, &block).autoload!
   end
 end
