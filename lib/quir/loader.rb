@@ -30,15 +30,20 @@ module Quir
       return if ::File.exist?("#{d}.rb")
       name = d.split(/\//)[-1].pascalize
       return if self.module.const_defined?(name, false)
-      define_module name, d
+      m = define_module(name, d)
+      loader = self.class.new(m, dir)
+      loader.autoload!
     end
 
     def define_module(name, dir)
       m = ::Module.new
       self.module.const_set name, m
       m.name # fix module's name
-      loader = self.class.new(m, dir)
-      loader.autoload!
+      initialize_module m, dir
+      m
+    end
+
+    def initialize_module(mod, dir)
     end
 
     def autoload_ruby_file(f)
