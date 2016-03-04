@@ -36,31 +36,29 @@ main/implicit/b.rb
 
 require 'quir'
 
-class Main
+module Main
   Quir.autoload! {}
 end
 
 # main/explicit.rb
 
-class Main
-  class Explicit
+module Main
+  module Explicit
     Quir.autoload! {}
   end
 end
 
 # main/explicit/a.rb
 
-class Main::Explicit
-  class A
+module Main::Explicit
+  module A
   end
 end
 
 # main/implicit/a.rb
 
-class Main
-  module Implicit
-    class B
-    end
+module Main::Implicit
+  class B
   end
 end
 ```
