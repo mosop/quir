@@ -1,8 +1,6 @@
 # Quir
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/quir`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A Ruby library utilized for autoloading. Pronounce kwaɪə[r].
 
 ## Installation
 
@@ -22,7 +20,61 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Simple Example
+
+File hierarchy:
+
+```
+main.rb
+main/explicit.rb
+main/explicit/a.rb
+main/implicit/b.rb
+```
+
+```ruby
+# main.rb
+
+require 'quir'
+
+class Main
+  Quir.autoload! {}
+end
+
+# main/explicit.rb
+
+class Main
+  class Explicit
+    Quir.autoload! {}
+  end
+end
+
+# main/explicit/a.rb
+
+class Main::Explicit
+  class A
+  end
+end
+
+# main/implicit/a.rb
+
+class Main
+  module Implicit
+    class B
+    end
+  end
+end
+```
+
+And the following code does not raise error:
+
+```ruby
+Main::Explicit::A
+Main::Implicit::B
+```
+
+### Automatic Namespace Definition
+
+In the above example, you don't have to explicitly define Main::Implicit. Because Quir automatically define missing intermediate modules. The name of defined module will be pascal-case of the corresponding directory's name.
 
 ## Development
 
@@ -32,5 +84,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/quir.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/mosop/quir.
