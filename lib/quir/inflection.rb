@@ -1,6 +1,6 @@
 module Quir
   module Inflection
-    autoload :String, 'quir/inflection/string/pascalize'
+    autoload :String, 'quir/inflection/string'
 
     refine ::String do
       include String::Pascalize
