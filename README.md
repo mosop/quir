@@ -72,7 +72,7 @@ Main::Implicit::B
 
 ### Automatic Namespace Definition
 
-In the above example, you don't have to explicitly define Main::Implicit. Because Quir automatically define missing intermediate modules. The name of defined module will be pascal-case of the corresponding directory's name.
+In the above example, you don't have to explicitly define Main::Implicit. Because Quir automatically defines missing intermediate modules. The name of defined module will be pascal-case of the corresponding directory's name.
 
 ## Development
 
