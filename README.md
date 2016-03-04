@@ -72,7 +72,7 @@ Main::Implicit::B
 
 ### Name Resolution
 
-Quir determines constant names by converting filename into pascal-case. For example, `two_words_class.rb` will be `TwoWordsClass`.
+Quir determines constant names by fetching filenames and converting them into pascal-case. For example, `two_words_class.rb` will be `TwoWordsClass`.
 
 ### Automatic Namespace Definition
 
