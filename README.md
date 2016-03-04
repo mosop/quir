@@ -1,6 +1,6 @@
 # Quir
 
-A Ruby library utilized for autoloading. Pronounce kwaɪə[r].
+A Ruby library utilized for autoloading. Pronounce kwaɪə[r]. https://rubygems.org/gems/quir
 
 ## Installation
 
