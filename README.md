@@ -70,6 +70,10 @@ Main::Explicit::A
 Main::Implicit::B
 ```
 
+### Name Resolution
+
+Quir determines constant names by converting filename into pascal-case. For example, `two_words_class.rb` will be `TwoWordsClass`.
+
 ### Automatic Namespace Definition
 
 In the above example, you don't have to explicitly define Main::Implicit. Because Quir automatically defines missing intermediate modules. The name of defined module will be pascal-case of the corresponding directory's name.
