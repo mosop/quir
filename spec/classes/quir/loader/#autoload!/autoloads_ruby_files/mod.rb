@@ -1,11 +1,9 @@
 module Quir::Testspaces
   module Quir
     module Loader
-      module I_Run
-        module DoesNotDefineModule
+      module ID_Autoload
+        module AutoloadsRubyFiles
           module Mod
-            module Mod
-            end
           end
         end
       end

@@ -1,7 +1,7 @@
 module Quir::Testspaces
   module Quir
     module Loader
-      module I_Run
+      module ID_Autoload
         module DoesNotRedefineModule
           module Mod
             module Mod
