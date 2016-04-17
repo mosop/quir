@@ -2,36 +2,17 @@ require 'spec_helper'
 
 RSpec.describe Quir::Loader do
   context '#autoload!' do
-    it 'autoloads ruby files' do
-      dir = "#{__dir__}/loader/#autoload!/autoloads_ruby_files"
+    it 'autoloads' do
+      dir = "#{__dir__}/loader/#autoload!/autoloads"
       require "#{dir}/mod"
-      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod, "#{dir}/mod")
+      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod, "#{dir}/mod")
       l.autoload!
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod.const_defined?(:Mod1, false)).to be(true)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod.const_get(:Mod1, false).class).to be(::Module)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod.const_defined?(:Mod2, false)).to be(true)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod.const_get(:Mod2, false).class).to be(::Module)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod::Mod2.const_defined?(:Mod, false)).to be(true)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::AutoloadsRubyFiles::Mod::Mod2.const_get(:Mod, false).class).to be(::Module)
-    end
-
-    it 'does not define module' do
-      dir = "#{__dir__}/loader/#autoload!/does_not_define_module"
-      require "#{dir}/mod"
-      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotDefineModule::Mod, "#{dir}/mod")
-      l.autoload!
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotDefineModule::Mod.const_defined?(:Mod, false)).to be(true)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotDefineModule::Mod.const_get(:Mod, false).class).to be(::Module)
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotDefineModule::Mod::Mod.const_defined?(:Mod, false)).to be(false)
-    end
-
-    it 'does not redefine module' do
-      dir = "#{__dir__}/loader/#autoload!/does_not_redefine_module"
-      require "#{dir}/mod"
-      Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotRedefineModule::Mod.const_set :Mod, Module.new
-      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotRedefineModule::Mod, "#{dir}/mod")
-      l.autoload!
-      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotRedefineModule::Mod::Mod.const_defined?(:Mod, false)).to be(false)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod.const_defined?(:Mod1, false)).to be(true)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod.const_get(:Mod1, false).class).to be(::Module)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod.const_defined?(:Mod2, false)).to be(true)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod.const_get(:Mod2, false).class).to be(::Module)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod::Mod2.const_defined?(:Mod, false)).to be(true)
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::Autoloads::Mod::Mod2.const_get(:Mod, false).class).to be(::Module)
     end
 
     it 'handles special character' do
@@ -45,6 +26,23 @@ RSpec.describe Quir::Loader do
       expect(Quir::Testspaces::Quir::Loader::ID_Autoload::HandlesSpecialCharacter::Mod.autoload?(:ID_InstanceDangerous)).not_to be(nil)
       expect(Quir::Testspaces::Quir::Loader::ID_Autoload::HandlesSpecialCharacter::Mod.autoload?(:IP_InstancePredicate)).not_to be(nil)
       expect(Quir::Testspaces::Quir::Loader::ID_Autoload::HandlesSpecialCharacter::Mod.autoload?(:I_Instance)).not_to be(nil)
+    end
+
+    it 'does not autoload when autoloaded' do
+      dir = "#{__dir__}/loader/#autoload!/does_not_autoload_when_autoloaded"
+      require "#{dir}/mod"
+      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotAutoloadWhenAutoloaded::Mod, "#{dir}/mod")
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotAutoloadWhenAutoloaded::Mod.singleton_class).not_to receive(:autoload)
+      l.autoload!
+    end
+
+    it 'does not autoload when defiend' do
+      dir = "#{__dir__}/loader/#autoload!/does_not_autoload_when_defined"
+      require "#{dir}/mod"
+      require "#{dir}/mod/mod"
+      l = Quir::Loader.new(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotAutoloadWhenDefined::Mod, "#{dir}/mod")
+      expect(Quir::Testspaces::Quir::Loader::ID_Autoload::DoesNotAutoloadWhenDefined::Mod.singleton_class).not_to receive(:autoload)
+      l.autoload!
     end
   end
 
