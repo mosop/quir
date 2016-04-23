@@ -55,7 +55,7 @@ module Main::Explicit
   end
 end
 
-# main/implicit/a.rb
+# main/implicit/b.rb
 
 module Main::Implicit
   class B
